@@ -125,10 +125,10 @@ class malloc:
         return 0
 
     def dump(self):
-        resultado["otracosita"].append({"solve":'Free List [ Size %d ]: ' % len(self.freelist)})
+        resultado["resultado de la simulacion "].append({"solve":'Free List [ Size %d ]: ' % len(self.freelist)})
         #print ('Free List [ Size %d ]: ' % len(self.freelist)), 
         for e in self.freelist:
-            resultado["otracosita"].append({"solve":'[ addr:%d sz:%d ]' % (e[0], e[1])})
+            resultado["resultado de la simulacion "].append({"solve":'[ addr:%d sz:%d ]' % (e[0], e[1])})
             #print ('[ addr:%d sz:%d ]' % (e[0], e[1])),
 
 
@@ -161,7 +161,7 @@ resultado = {"seed": options.seed, "size": options.heapSize, "baseAddr": options
             "policy": options.policy, "listOrder": options.order, "coalesce":options.coalesce,
             "numOps":options.opsNum,"range":options.opsRange,"percentAlloc":options.opsPAlloc,
             "allocList": options.opsList, "compute": options.solve}
-resultado["otracosita"] = []
+resultado["resultado de la simulacion "] = []
 
 # print ('seed', options.seed)
 # print ('size', options.heapSize)
@@ -196,13 +196,13 @@ if options.opsList == '':
             if ptr != -1:
                 p[c] = ptr
                 L.append(c)
-            resultado["otracosita"].append({"solve":'ptr[%d] = Alloc(%d)' % (c, size)})    
+            resultado["resultado de la simulacion "].append({"solve":'ptr[%d] = Alloc(%d)' % (c, size)})    
             #print ('ptr[%d] = Alloc(%d)' % (c, size)),
             if options.solve == True:
-                resultado["otracosita"].append({"solve":' returned %d (searched %d elements)' % (ptr + options.headerSize, cnt)})
+                resultado["resultado de la simulacion "].append({"solve":' returned %d (searched %d elements)' % (ptr + options.headerSize, cnt)})
                 #print (' returned %d (searched %d elements)' % (ptr + options.headerSize, cnt))
             else:
-                resultado["otracosita"].append({"solve":' returned ?'})
+                resultado["resultado de la simulacion "].append({"solve":' returned ?'})
                 #print (' returned ?')
             c += 1
             j += 1
@@ -212,13 +212,13 @@ if options.opsList == '':
                 # pick random one to delete
                 d = int(random.random() * len(L))
                 rc = m.free(p[L[d]])
-                resultado["otracosita"].append({"solve":'Free(ptr[%d])' % L[d]})
+                resultado["resultado de la simulacion "].append({"solve":'Free(ptr[%d])' % L[d]})
                 #print ('Free(ptr[%d])' % L[d]), 
                 if options.solve == True:
-                    resultado["otracosita"].append({"solve":'returned %d' % rc})
+                    resultado["resultado de la simulacion "].append({"solve":'returned %d' % rc})
                     #print ('returned %d' % rc)
                 else:
-                    resultado["otracosita"].append({"solve":'returned ?'})
+                    resultado["resultado de la simulacion "].append({"solve":'returned ?'})
                     #print ('returned ?')
                 del p[L[d]]
                 del L[d]
@@ -230,7 +230,7 @@ if options.opsList == '':
             if options.solve == True:
                 m.dump()
             else:
-                resultado["otracosita"].append({"solve":'List?'})
+                resultado["resultado de la simulacion "].append({"solve":'List?'})
                 #print ('List? ')
 else:
     c = 0
@@ -241,37 +241,37 @@ else:
             ptr, cnt = m.malloc(size)
             if ptr != -1:
                 p[c] = ptr
-            resultado["otracosita"].append({"solve":'ptr[%d] = Alloc(%d)' % (c, size)})    
+            resultado["resultado de la simulacion "].append({"solve":'ptr[%d] = Alloc(%d)' % (c, size)})    
             #print ('ptr[%d] = Alloc(%d)' % (c, size)),
             if options.solve == True:
-                resultado["otracosita"].append({"solve":' returned %d (searched %d elements)' % (ptr, cnt)})
+                resultado["resultado de la simulacion "].append({"solve":' returned %d (searched %d elements)' % (ptr, cnt)})
                 #print (' returned %d (searched %d elements)' % (ptr, cnt))
             else:
-                resultado["otracosita"].append({"solve":' returned ?'})
+                resultado["resultado de la simulacion "].append({"solve":' returned ?'})
                 #print (' returned ?')
             c += 1
         elif op[0] == '-':
             # free
             index = int(op.split('-')[1])
             if index >= len(p):
-                resultado["otracosita"].append({"solve":'Invalid Free: Skipping'})
+                resultado["resultado de la simulacion "].append({"solve":'Invalid Free: Skipping'})
                 #print ('Invalid Free: Skipping')
                 continue
-            resultado["otracosita"].append({"solve":'Free(ptr[%d])' % index})
+            resultado["resultado de la simulacion "].append({"solve":'Free(ptr[%d])' % index})
             #print ('Free(ptr[%d])' % index), 
             rc = m.free(p[index])
             if options.solve == True:
-                resultado["otracosita"].append({"solve":'returned %d' % rc})
+                resultado["resultado de la simulacion "].append({"solve":'returned %d' % rc})
                 #print ('returned %d' % rc)
             else:
-                resultado["otracosita"].append({"solve":'returned ?'})
+                resultado["resultado de la simulacion "].append({"solve":'returned ?'})
                 #print ('returned ?')
         else:
             abort('badly specified operand: must be +Size or -Index')
         if options.solve == True:
             m.dump()
         else:
-            resultado["otracosita"].append({"solve":'List?'})
+            resultado["resultado de la simulacion "].append({"solve":'List?'})
             #print ('List?')
 
 print (resultado)       
